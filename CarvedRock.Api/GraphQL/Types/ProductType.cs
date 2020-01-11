@@ -19,6 +19,7 @@ namespace CarvedRock.Api.GraphQL.Types
             Field(t => t.Price);
             Field(t => t.Rating).Description("The (max 5) star customer rating");
             Field(t => t.Stock);
+            Field<ProductTypeEnumType>("Type");
         }
     }
 }
