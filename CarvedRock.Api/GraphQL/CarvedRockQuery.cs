@@ -1,5 +1,6 @@
 ﻿using CarvedRock.Api.GraphQL.Types;
 using CarvedRock.Api.Repositories;
+using GraphQL;
 using GraphQL.Types;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,13 @@ namespace CarvedRock.Api.GraphQL
                 arguments: new QueryArguments(
                     new QueryArgument<NonNullGraphType<IdGraphType>> { Name = "id" }),
                 resolve: context =>
-                    productRepository.GetOneAsync(context.GetArgument<int>("id")));
+                {
+                    int id = context.GetArgument<int>("id");
+                    if (id < 1)
+                        context.Errors.Add(new ExecutionError("id out of range"));
+
+                    return productRepository.GetOneAsync(id);
+                });
         }
     }
 }
