@@ -46,6 +46,13 @@ namespace CarvedRock.Api
                     options.ExposeExceptions = Env.IsDevelopment(); // expose detailed exceptions in JSON response
                 })
                 .AddGraphTypes(ServiceLifetime.Scoped);
+
+            // Temporarily allow synchronous IO, as it's required to overcome a bug in GraphQL.Net in .Net Core 3:
+            // https://github.com/graphql-dotnet/graphql-dotnet/issues/1161#issuecomment-540197786
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.AllowSynchronousIO = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
