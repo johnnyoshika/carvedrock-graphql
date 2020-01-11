@@ -7,6 +7,7 @@ using CarvedRock.Api.GraphQL;
 using CarvedRock.Api.Repositories;
 using GraphQL;
 using GraphQL.Server;
+using GraphQL.Server.Ui.Playground;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -51,6 +52,7 @@ namespace CarvedRock.Api
         public void Configure(IApplicationBuilder app, CarvedRockDbContext dbContext)
         {
             app.UseGraphQL<CarvedRockSchema>();
+            app.UseGraphQLPlayground(new GraphQLPlaygroundOptions());
             dbContext.Seed();
         }
     }
