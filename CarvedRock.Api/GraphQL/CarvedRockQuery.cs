@@ -5,6 +5,7 @@ using GraphQL.Types;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace CarvedRock.Api.GraphQL
@@ -24,6 +25,10 @@ namespace CarvedRock.Api.GraphQL
                     new QueryArgument<NonNullGraphType<IdGraphType>> { Name = "id" }),
                 resolve: context =>
                 {
+                    var user = (ClaimsPrincipal)context.UserContext;
+                    if (user.Identity.Name == "Johnny")
+                        context.Errors.Add(new ExecutionError("User Johnny error"));
+
                     int id = context.GetArgument<int>("id");
                     if (id < 1)
                         context.Errors.Add(new ExecutionError("id out of range"));

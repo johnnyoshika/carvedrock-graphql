@@ -47,6 +47,7 @@ namespace CarvedRock.Api
                     options.ExposeExceptions = Env.IsDevelopment(); // expose detailed exceptions in JSON response
                 })
                 .AddGraphTypes(ServiceLifetime.Scoped)
+                .AddUserContextBuilder(httpContext => httpContext.User)
                 .AddDataLoader();
 
             // Temporarily allow synchronous IO, as it's required to overcome a bug in GraphQL.Net in .Net Core 3:
