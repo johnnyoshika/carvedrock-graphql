@@ -31,7 +31,7 @@ namespace CarvedRock.Api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, CarvedRockDbContext dbContext)
         {
             if (env.IsDevelopment())
             {
@@ -47,6 +47,8 @@ namespace CarvedRock.Api
                     await context.Response.WriteAsync("Hello World!");
                 });
             });
+
+            dbContext.Seed();
         }
     }
 }
