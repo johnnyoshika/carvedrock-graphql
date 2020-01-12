@@ -52,6 +52,8 @@ namespace CarvedRock.Api
                 .AddUserContextBuilder(httpContext => httpContext.User)
                 .AddDataLoader();
 
+            services.AddCors();
+
             // Temporarily allow synchronous IO, as it's required to overcome a bug in GraphQL.Net in .Net Core 3:
             // https://github.com/graphql-dotnet/graphql-dotnet/issues/1161#issuecomment-540197786
             services.Configure<IISServerOptions>(options =>
@@ -63,6 +65,9 @@ namespace CarvedRock.Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, CarvedRockDbContext dbContext)
         {
+            app.UseCors(builder =>
+                builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+
             app.UseGraphQL<CarvedRockSchema>();
             app.UseGraphQLPlayground(new GraphQLPlaygroundOptions());
             dbContext.Seed();
