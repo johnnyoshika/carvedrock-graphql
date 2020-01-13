@@ -7,6 +7,16 @@ Experimenting with GraphQL and .Net Core following [Building GraphQL APIs with A
   * `update-database`
   * Run the `CarvedRock.Api` project to seed the database
 
+## Demonstrates
+* Query
+* Mutation
+* Subscription
+
+# Run
+* Run `CarvedRock.Api` project
+* Experiment with GraphQL Playground here: https://localhost:44369/ui/playground
+* Use React + Apollo client application here: https://github.com/johnnyoshika/carvedrock-graphql-client
+
 ## Known Problems
 ### DbContext Scope
 DbContext is scoped by default and DbContext doesn't support parallel requests, so queries like this results in an exception:
