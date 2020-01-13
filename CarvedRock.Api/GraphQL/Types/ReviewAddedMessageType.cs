@@ -11,8 +11,10 @@ namespace CarvedRock.Api.GraphQL.Types
     {
         public ReviewAddedMessageType()
         {
+            Field(t => t.Id);
             Field(t => t.ProductId);
             Field(t => t.Title);
+            Field(t => t.Review);
         }
     }
 }

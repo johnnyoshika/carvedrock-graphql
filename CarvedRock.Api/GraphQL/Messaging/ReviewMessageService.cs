@@ -16,8 +16,10 @@ namespace CarvedRock.Api.GraphQL.Messaging
         {
             var message = new ReviewAddedMessage
             {
+                Id = review.Id,
                 ProductId = review.ProductId,
-                Title = review.Title
+                Title = review.Title,
+                Review = review.Review
             };
 
             _messageStream.OnNext(message); // Will send the message to all subscribers
