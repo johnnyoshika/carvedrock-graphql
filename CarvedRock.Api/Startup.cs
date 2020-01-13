@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CarvedRock.Api.Data;
 using CarvedRock.Api.GraphQL;
+using CarvedRock.Api.GraphQL.Messaging;
 using CarvedRock.Api.Repositories;
 using GraphQL;
 using GraphQL.Server;
@@ -43,6 +44,7 @@ namespace CarvedRock.Api
 
             services.AddScoped<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
             services.AddScoped<CarvedRockSchema>();
+            services.AddSingleton<ReviewMessageService>();
             services
                 .AddGraphQL(options =>
                 {
@@ -50,7 +52,8 @@ namespace CarvedRock.Api
                 })
                 .AddGraphTypes(ServiceLifetime.Scoped)
                 .AddUserContextBuilder(httpContext => httpContext.User)
-                .AddDataLoader();
+                .AddDataLoader()
+                .AddWebSockets();
 
             services.AddCors();
 
@@ -68,6 +71,8 @@ namespace CarvedRock.Api
             app.UseCors(builder =>
                 builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
+            app.UseWebSockets();
+            app.UseGraphQLWebSockets<CarvedRockSchema>();
             app.UseGraphQL<CarvedRockSchema>();
             app.UseGraphQLPlayground(new GraphQLPlaygroundOptions());
             dbContext.Seed();
